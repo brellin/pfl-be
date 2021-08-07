@@ -10,6 +10,8 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
+server.use(require('./posts'));
+
 server.get('/', (req, res) => {
     res.status(200).json({ message: 'It works' });
 });
