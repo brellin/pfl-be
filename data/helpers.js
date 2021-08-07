@@ -8,8 +8,15 @@ module.exports = {
     findBy: function (col) {
         return db('posts').where(col);
     },
-    post: async function (post) {
-        const [ id ] = await db('posts').insert(post);
-        return id;
+    post: function (post) {
+        return knex('posts')
+            .insert({
+                username: req.body.username,
+                password: hash,
+            })
+            .returning('*')
+            .bind(console)
+            .then(console.log)
+            .catch(console.error);
     }
 };
