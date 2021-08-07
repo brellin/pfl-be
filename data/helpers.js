@@ -8,8 +8,8 @@ module.exports = {
     findBy: function (col) {
         return db('posts').where(col);
     },
-    post: async function (user) {
-        const [ id ] = await db('posts').insert(user);
+    post: async function (post) {
+        const [ id ] = await db('posts').insert({ ...post });
         return id;
     }
 };
