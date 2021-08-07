@@ -9,11 +9,8 @@ module.exports = {
         return db('posts').where(col);
     },
     post: function (post) {
-        return knex('posts')
-            .insert({ ...post })
-            .returning('*')
-            .bind(console)
-            .then(console.log)
-            .catch(console.error);
+        const { text, title, date } = post;
+        const [ id ] = db('posts').insert({ text, title, date });
+        return id;
     }
 };
