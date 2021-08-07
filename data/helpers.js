@@ -9,7 +9,7 @@ module.exports = {
         return db('posts').where(col);
     },
     post: async function (post) {
-        const [ id ] = await db('posts').insert({ ...post });
+        const [ id ] = await db('posts').insert(post);
         return id;
     }
 };

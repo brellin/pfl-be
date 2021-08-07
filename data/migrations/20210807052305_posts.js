@@ -1,23 +1,24 @@
-exports.up = function (knex, Promise) {
-    return knex.schema.createTable('posts', col => {
+exports.up = function (knex) {
+    return knex.schema
+        .createTable('posts', table => {
 
-        col.increments();
+            table.increments().primary();
 
-        col
-            .string('title')
-            .notNullable();
+            table
+                .string('title')
+                .notNullable();
 
-        col
-            .string('text')
-            .notNullable();
+            table
+                .string('text')
+                .notNullable();
 
-        col
-            .string('date')
-            .notNullable();
+            table
+                .string('date')
+                .notNullable();
 
-    });
+        });
 };
 
-exports.down = function (knex, Promise) {
+exports.down = function (knex) {
     return knex.schema.dropTableIfExists('posts');
 };
