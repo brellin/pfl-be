@@ -10,6 +10,7 @@ postsRouter.post('/new', async (req, res) => {
             .status(201)
             .json({ title, text, date, id: post });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err });
     }
 });
