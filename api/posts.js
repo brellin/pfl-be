@@ -1,19 +1,17 @@
-const posts = require('express').Router();
+const postsRouter = require('express').Router();
 const Posts = require('../data/helpers');
 
-posts.post('/new', async (req, res) => {
+postsRouter.post('/new', async (req, res) => {
     const { title, text } = req.body;
+    const date = Date.now().toString();
     try {
-        const post = await Posts.post({ title, text, date: new Date.now.toString() });
-        res.status(201).json({
-            title,
-            text,
-            date,
-            id: post
-        });
+        const post = await Posts.post({ title, text, date });
+        res
+            .status(201)
+            .json({ title, text, date, id: post });
     } catch (err) {
-        res.status(400).json({ ...err, data: err.data });
+        res.status(500).json({ error: err });
     }
 });
 
-module.exports = posts;
+module.exports = postsRouter;
