@@ -6,6 +6,7 @@ posts.post('/new', async (req, res) => {
     console.log('title + text ' + title + ' ' + text);
     try {
         const post = await Posts.post({ title, text, date: new Date.now() });
+        console.log('post ' + post);
         res.status(201).json({
             title,
             text,
