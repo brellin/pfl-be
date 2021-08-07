@@ -10,10 +10,7 @@ module.exports = {
     },
     post: function (post) {
         return knex('posts')
-            .insert({
-                username: req.body.username,
-                password: hash,
-            })
+            .insert({ ...post })
             .returning('*')
             .bind(console)
             .then(console.log)
