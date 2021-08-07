@@ -10,6 +10,7 @@ module.exports = {
     },
     post: function (post) {
         const { text, title, date } = post;
+        console.log('date =>' + date);
         const [ id ] = db('posts').insert({ text, title, date });
         return id;
     }
