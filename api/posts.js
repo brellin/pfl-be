@@ -12,7 +12,7 @@ posts.post('/new', async (req, res) => {
             id: post
         });
     } catch (err) {
-        res.status(500).json({ ...err });
+        res.status(500).send(err));
     }
 });
 
