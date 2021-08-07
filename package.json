@@ -1,0 +1,24 @@
+{
+  "name": "pfl-be",
+  "version": "1.0.0",
+  "description": "Portfolio Blog Backend",
+  "main": "index.js",
+  "repository": "https://github.com/brellin/pfl-be.git",
+  "author": "brellin <cekakid@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0"
+  }
+}
