@@ -1,2 +1,6 @@
-# pfl-be
-Portfolio Backend for Blog
+# Portfolio Backend
+
+## Endpoints
+
+Method | Endpoint | Description
+GET | `/` | Sends a 200 response to indicate it is working properly
