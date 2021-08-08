@@ -18,7 +18,8 @@ exports.up = function (knex) {
 
             table
                 .string('name')
-                .notNullable();
+                .notNullable()
+                .unique();
 
         });
 };
