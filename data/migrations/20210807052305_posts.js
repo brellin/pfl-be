@@ -16,6 +16,10 @@ exports.up = function (knex) {
                 .string('date')
                 .notNullable();
 
+            table
+                .string('name')
+                .notNullable();
+
         });
 };
 
