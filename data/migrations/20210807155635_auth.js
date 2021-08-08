@@ -3,6 +3,7 @@ exports.up = function (knex) {
     return knex
         .schema
         .createTable('auth', table => {
+
             table.increments('id');
 
             table
@@ -12,11 +13,8 @@ exports.up = function (knex) {
             table
                 .string('name')
                 .notNullable()
-                .unique()
-                .references('name')
-                .inTable('posts')
-                .onDelete('RESTRICT')
-                .onUpdate('CASCADE');
+                .unique();
+
         });
 
 };
