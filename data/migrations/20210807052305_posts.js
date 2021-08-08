@@ -9,7 +9,7 @@ exports.up = function (knex) {
                 .notNullable();
 
             table
-                .string('text')
+                .text('text', 'longtext')
                 .notNullable();
 
             table
