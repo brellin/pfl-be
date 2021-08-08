@@ -13,7 +13,7 @@ exports.up = function (knex) {
                 .string('name')
                 .notNullable()
                 .unique()
-                .references('id')
+                .references('name')
                 .inTable('posts')
                 .onDelete('RESTRICT')
                 .onUpdate('CASCADE');
