@@ -16,13 +16,27 @@ postsRouter.post('/new', async (req, res) => {
     }
 });
 
-postsRouter.get('/', async (req, res) => {
+postsRouter.get('/', async (_, res) => {
     try {
         const posts = await Posts.get();
         res.status(200).json([ ...posts ]);
     } catch (err) {
         console.error(err);
-        res.status(404).json({ error: err });
+        res.status(500).json({ error: err });
+    }
+});
+
+postsRouter.post('/comment', async (req, res) => {
+    const { post_id, content, name } = req.body;
+    const date = Date.now().toString();
+    try {
+        const comment = Posts.addComment({ post_id, content, name, date });
+        res
+            .status(201)
+            .json({ post_id, content, name, date, id: comment });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
     }
 });
 
