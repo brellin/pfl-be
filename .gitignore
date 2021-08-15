@@ -105,3 +105,4 @@ dist
 
 # Personal
 .vscode/
+data/dev.db3
