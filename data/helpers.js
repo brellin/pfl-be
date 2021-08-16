@@ -35,7 +35,8 @@ module.exports = {
 
     getAllPosts: async _ => {
         try {
-            return await db('posts').map(post => ({
+            const posts = await db('posts');
+            return posts.map(post => ({
                 ...post,
                 comments: populateComments(post.post_id)
             }));
