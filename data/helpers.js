@@ -1,39 +1,57 @@
 const db = require('./');
 
+const populateComments = async postId => {
+    const comments = await db('comments');
+
+    return comments
+        .filter(comment => comment.post_id === postId)
+        .map(c => {
+            delete c[ 'post_id' ];
+            return c;
+        });
+};
+
 module.exports = {
 
-    post: async post => await db('posts')
-        .insert(post)
-        .returning('id'),
-
-    verify: async name => {
-        const userOnFile = await db('auth')
-            .where('name', name)
-            .first();
-
-        if (userOnFile) {
-            return userOnFile;
-        } else {
-            throw new Error();
+    post: async post => {
+        try {
+            await db('posts')
+                .insert(post)
+                .returning('id');
+        } catch (err) {
+            throw new Error(err);
         }
     },
 
-    get: async _ => {
-        const posts = await db('posts');
-        const comments = await db('comments');
-        return posts.map(post => ({
-            ...post,
-            comments: comments
-                .filter(comment => comment.post_id === post.id)
-                .map(c => {
-                    delete c[ 'post_id' ];
-                    return c;
-                })
-        }));
+    verify: async name => {
+        try {
+            return await db('auth')
+                .where('name', name)
+                .first();
+        } catch (err) {
+            throw new Error(err);
+        }
     },
 
-    addComment: async comment => await db('comments')
-        .insert(comment)
-        .returning('id')
+    getAllPosts: async _ => {
+        try {
+            return await db('posts').map(post => ({
+                ...post,
+                comments: populateComments(post.post_id)
+            }));
+        } catch (err) {
+            throw new Error(err);
+        }
+    },
+
+    addComment: async comment => {
+        try {
+            return await db('comments')
+                .insert(comment)
+                .returning('id');
+        } catch (err) {
+            throw err;
+        }
+    }
 
 };

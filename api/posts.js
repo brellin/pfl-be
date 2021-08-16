@@ -18,8 +18,8 @@ postsRouter.post('/new', async (req, res) => {
 
 postsRouter.get('/', async (_, res) => {
     try {
-        const posts = await Posts.get();
-        res.status(200).json([ ...posts ]);
+        const posts = await Posts.getAllPosts();
+        res.status(200).json(posts);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err });
