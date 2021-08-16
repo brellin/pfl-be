@@ -23,7 +23,13 @@ Until next time`,
                 proof: hashSync(process.env.PW, 10)
             }
         ],
-        comments: []
+        comments: [ {
+            id: 1,
+            name: '',
+            content: '',
+            date: Date.now().toString(),
+            post_id: 1
+        } ]
     },
     development: {
         posts: [
