@@ -2,7 +2,7 @@ require('dotenv').config();
 const { hashSync } = require('bcrypt');
 exports.seed = knex => knex('auth')
   .del()
-  .then(() => knex('auth').insert([
+  .then(_ => knex('auth').insert([
     {
       id: 1,
       name: 'Will Umstead',
