@@ -1,5 +1,6 @@
 const postsRouter = require('express').Router();
-const Posts = require('../data/helpers');
+const Posts = require('../data/helpers').posts;
+const Comments = require('../data/helpers').comments;
 
 postsRouter.post('/new', async (req, res) => {
     const { title, text } = req.body;
@@ -30,12 +31,23 @@ postsRouter.post('/comment', async (req, res) => {
     const { post_id, content, name } = req.body;
     const date = Date.now().toString();
     try {
-        const comment = Posts.addComment({ post_id, content, name, date });
+        const comment = Comments.addComment({ post_id, content, name, date });
         res
             .status(201)
             .json({ post_id, content, name, date, id: comment });
     } catch (err) {
         console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
+postsRouter.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const post = await Posts.getOnePost(id);
+        res.status(200).json(post);
+    } catch (err) {
         res.status(500).json({ error: err });
     }
 });
