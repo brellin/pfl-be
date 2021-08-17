@@ -19,7 +19,7 @@ module.exports = {
                 .insert(post)
                 .returning('id');
         } catch (err) {
-            throw new Error(err);
+            throw err;
         }
     },
 
@@ -29,7 +29,7 @@ module.exports = {
                 .where('name', name)
                 .first();
         } catch (err) {
-            throw new Error(err);
+            throw err;
         }
     },
 
@@ -41,7 +41,7 @@ module.exports = {
                 comments: populateComments(post.post_id)
             }));
         } catch (err) {
-            throw new Error(err);
+            throw err;
         }
     },
 
