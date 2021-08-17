@@ -1,8 +1,6 @@
 const db = require('./');
 
-const populateComments = async postId => {
-    const comments = await db('comments');
-
+const populateComments = (postId, comments) => {
     return comments
         .filter(comment => comment.post_id === postId)
         .map(c => {
@@ -34,11 +32,14 @@ module.exports = {
     },
 
     getAllPosts: async _ => {
+        const comments = await db('comments');
+
         try {
-            const posts = await db('posts');
+            let posts = await db('posts');
+
             return posts.map(post => ({
                 ...post,
-                comments: populateComments(post.post_id)
+                comments: populateComments(post.id, comments)
             }));
         } catch (err) {
             throw err;
@@ -50,6 +51,19 @@ module.exports = {
             return await db('comments')
                 .insert(comment)
                 .returning('id');
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    getOnePost: async id => {
+        try {
+            const post = await db('posts').where({ id });
+            console.log(post);
+            return {
+                ...post,
+                comments: await populateComments(id)
+            };
         } catch (err) {
             throw err;
         }
