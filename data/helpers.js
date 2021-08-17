@@ -42,7 +42,7 @@ module.exports = {
             const comments = await Comments;
 
             try {
-                let posts = await db('posts');
+                let posts = await Posts;
 
                 return posts.map(post => ({
                     ...post,
@@ -57,12 +57,26 @@ module.exports = {
             const comments = await Comments;
 
             try {
-                const post = await db('posts').where({ id }).first();
+                const post = await Posts.where({ id }).first();
                 console.log('post', post);
                 return {
                     ...post,
                     comments: populateComments(id, comments)
                 };
+            } catch (err) {
+                throw err;
+            }
+        },
+
+        updatePost: async (id, updates) => {
+            const comments = await Comments;
+
+            try {
+                const post = await Posts
+                    .where({ id })
+                    .update({ ...updates })
+                    .returning([ 'id', 'title', 'text', 'date' ]);
+                return post;
             } catch (err) {
                 throw err;
             }

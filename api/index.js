@@ -11,6 +11,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use('/posts', require('./posts'));
+server.use('/comments', require('./comments'));
 server.use(require('./auth'));
 
 server.get('/', (req, res) => {

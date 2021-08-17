@@ -1,7 +1,31 @@
+const { compareSync } = require('bcrypt');
 const postsRouter = require('express').Router();
 const Posts = require('../data/helpers').posts;
-const Comments = require('../data/helpers').comments;
+const Auth = require('../data/helpers').auth;
 
+// get functions
+postsRouter.get('/', async (_, res) => {
+    try {
+        const posts = await Posts.getAllPosts();
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
+postsRouter.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const post = await Posts.getOnePost(id);
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
+
+// post functions
 postsRouter.post('/new', async (req, res) => {
     const { title, text } = req.body;
     const { name } = req.headers;
@@ -17,36 +41,28 @@ postsRouter.post('/new', async (req, res) => {
     }
 });
 
-postsRouter.get('/', async (_, res) => {
-    try {
-        const posts = await Posts.getAllPosts();
-        res.status(200).json(posts);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err });
-    }
-});
-
-postsRouter.post('/comment', async (req, res) => {
-    const { post_id, content, name } = req.body;
-    const date = Date.now().toString();
-    try {
-        const comment = Comments.addComment({ post_id, content, name, date });
-        res
-            .status(201)
-            .json({ post_id, content, name, date, id: comment });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err });
-    }
-});
-
-postsRouter.get('/:id', async (req, res) => {
+// put functions
+postsRouter.put('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        const post = await Posts.getOnePost(id);
-        res.status(200).json(post);
+        const updated = await Posts.updatePost(id, req.body);
+        res.status(201).json(updated);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
+
+// delete functions
+postsRouter.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { password, name } = req.headers;
+
+    try {
+        const { proof } = await Auth.verify(name);
+        const isMe = compareSync(password, proof);
+        if (isMe) res.status(200).json({ message: `deleted post ${ id }` });
+        else res.status(401).json({ message: "You're not me." });
     } catch (err) {
         res.status(500).json({ error: err });
     }
