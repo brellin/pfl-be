@@ -4,11 +4,7 @@ const Comments = db('comments');
 const Auth = db('auth');
 
 const populateComments = (postId, comments) => comments
-    .filter(comment => parseInt(comment.post_id) === parseInt(postId))
-    .map(c => {
-        delete c[ 'post_id' ];
-        return c;
-    });
+    .filter(comment => parseInt(comment.post_id) === parseInt(postId));
 
 module.exports = {
 
@@ -57,8 +53,9 @@ module.exports = {
             const comments = await Comments;
 
             try {
-                const post = await Posts.where({ id }).first();
-                console.log('post', post);
+                const post = await Posts
+                    .where({ id })
+                    .first();
                 return {
                     ...post,
                     comments: populateComments(id, comments)
