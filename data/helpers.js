@@ -1,7 +1,4 @@
 const db = require('./');
-const Posts = db('posts');
-const Comments = db('comments');
-const Auth = db('auth');
 
 const populateComments = (postId, comments) => comments
     .filter(comment => parseInt(comment.post_id) === parseInt(postId));
@@ -12,7 +9,7 @@ module.exports = {
 
         addComment: async comment => {
             try {
-                return await Comments
+                return await db('comments')
                     .insert(comment)
                     .returning('id');
             } catch (err) {
@@ -26,7 +23,7 @@ module.exports = {
 
         post: async post => {
             try {
-                await Posts
+                await db('posts')
                     .insert(post)
                     .returning('id');
             } catch (err) {
@@ -35,41 +32,48 @@ module.exports = {
         },
 
         getAllPosts: async _ => {
-            const comments = await Comments;
+            const comments = await db('comments');
 
             try {
-                let posts = await Posts;
+                let posts = await db('posts');
+
+                console.log('posts (should be array)', posts);
 
                 return posts.map(post => ({
                     ...post,
                     comments: populateComments(post.id, comments)
                 }));
             } catch (err) {
+                console.log(err);
                 throw err;
             }
         },
 
         getOnePost: async id => {
-            const comments = await Comments;
+            const comments = await db('comments');
 
             try {
-                const post = await Posts
+                const post = await db('posts')
                     .where({ id })
                     .first();
+
+                console.log('post (should be object)', post);
+
                 return {
                     ...post,
                     comments: populateComments(id, comments)
                 };
             } catch (err) {
+                console.log(err);
                 throw err;
             }
         },
 
         updatePost: async (id, updates) => {
-            const comments = await Comments;
+            const comments = await db('comments');
 
             try {
-                const post = await Posts
+                const post = await db('posts')
                     .where({ id })
                     .update({ ...updates })
                     .returning([ 'id', 'title', 'text', 'date' ]);
@@ -85,7 +89,7 @@ module.exports = {
 
         verify: async name => {
             try {
-                return await Auth
+                return await db('auth')
                     .where('name', name)
                     .first();
             } catch (err) {

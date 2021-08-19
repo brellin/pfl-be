@@ -21,6 +21,7 @@ postsRouter.get('/:id', async (req, res) => {
         const post = await Posts.getOnePost(id);
         res.status(200).json(post);
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: err });
     }
 });
