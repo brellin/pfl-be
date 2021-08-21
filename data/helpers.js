@@ -23,15 +23,9 @@ module.exports = {
 
     posts: {
 
-        post: async post => {
-            try {
-                await db('posts')
-                    .insert(post)
-                    .returning('id');
-            } catch (err) {
-                throw err;
-            }
-        },
+        post: async post => await db('posts')
+            .insert(post)
+            .returning('id'),
 
         getAllPosts: async _ => {
 

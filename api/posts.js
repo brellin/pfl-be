@@ -33,6 +33,7 @@ postsRouter.post('/new', async (req, res) => {
     const date = Date.now().toString();
     try {
         const post = await Posts.post({ title, text, date, name });
+        console.log(post);
         res
             .status(201)
             .json({ title, text, date, id: post });
