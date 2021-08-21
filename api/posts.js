@@ -50,6 +50,7 @@ postsRouter.put('/:id', async (req, res) => {
         const updated = await Posts.updatePost(id, req.body);
         res.status(201).json(updated);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err });
     }
 });
