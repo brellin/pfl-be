@@ -1,7 +1,9 @@
 const db = require('./');
 
-const populateComments = (postId, comments) => comments
-    .filter(comment => parseInt(comment.post_id) === parseInt(postId));
+const populateComments = async postId => {
+    const comments = await db('comments');
+    return comments.filter(comment => parseInt(comment.post_id) === parseInt(postId));
+};
 
 module.exports = {
 
@@ -32,7 +34,6 @@ module.exports = {
         },
 
         getAllPosts: async _ => {
-            const comments = await db('comments');
 
             try {
                 let posts = await db('posts');
@@ -41,7 +42,7 @@ module.exports = {
 
                 return posts.map(post => ({
                     ...post,
-                    comments: populateComments(post.id, comments)
+                    comments: populateComments(post.id)
                 }));
             } catch (err) {
                 console.log(err);
@@ -50,18 +51,15 @@ module.exports = {
         },
 
         getOnePost: async id => {
-            const comments = await db('comments');
 
             try {
                 const post = await db('posts')
                     .where({ id })
                     .first();
 
-                console.log('post (should be object)', post);
-
                 return {
                     ...post,
-                    comments: populateComments(id, comments)
+                    comments: populateComments(id)
                 };
             } catch (err) {
                 console.log(err);
@@ -70,14 +68,13 @@ module.exports = {
         },
 
         updatePost: async (id, updates) => {
-            const comments = await db('comments');
-
             try {
                 const post = await db('posts')
                     .where({ id })
                     .update({ ...updates })
                     .returning([ 'id', 'title', 'text', 'date' ]);
-                return post;
+
+                return populateComments(post);
             } catch (err) {
                 throw err;
             }

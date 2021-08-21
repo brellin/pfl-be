@@ -45,9 +45,12 @@ postsRouter.post('/new', async (req, res) => {
 // put functions
 postsRouter.put('/:id', async (req, res) => {
     const { id } = req.params;
+    const { title, text, date, name } = req.body;
+
+    const updates = { title, text, date, name, edited: Date.now().toString() };
 
     try {
-        const updated = await Posts.updatePost(id, req.body);
+        const updated = await Posts.updatePost(id, updates);
         res.status(201).json(updated);
     } catch (err) {
         console.error(err);
