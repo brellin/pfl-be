@@ -67,7 +67,11 @@ postsRouter.delete('/:id', async (req, res) => {
     try {
         const { proof } = await Auth.verify(name);
         const isMe = compareSync(password, proof);
-        if (isMe) res.status(200).json({ message: `deleted post ${ id }` });
+
+        if (isMe) {
+            await Posts.deletePost(id);
+            res.status(200).json({ message: `deleted post ${ id }` });
+        }
         else res.status(401).json({ message: "You're not me." });
     } catch (err) {
         res.status(500).json({ error: err });

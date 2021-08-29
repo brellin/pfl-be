@@ -72,7 +72,11 @@ module.exports = {
             } catch (err) {
                 throw err;
             }
-        }
+        },
+
+        deletePost: async id => await db('posts')
+            .where({ id })
+            .del()
 
     },
 
