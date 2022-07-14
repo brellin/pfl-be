@@ -14,7 +14,7 @@ postsRouter.get('/', async (_, res) => {
     }
 });
 
-postsRouter.get('/:cat', async (req, res) => {
+postsRouter.get('/category/:cat', async (req, res) => {
     const { cat } = req.params;
 
     try {
@@ -40,15 +40,15 @@ postsRouter.get('/:id', async (req, res) => {
 
 // post functions
 postsRouter.post('/new', async (req, res) => {
-    const { title, text } = req.body;
+    const { title, text, category } = req.body;
     const { name } = req.headers;
     const date = Date.now().toString();
     try {
-        const post = await Posts.post({ title, text, date, name });
+        const post = await Posts.post({ title, text, date, name, category });
         console.log(post);
         res
             .status(201)
-            .json({ title, text, date, id: post });
+            .json({ title, text, date, category, id: post });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err });
@@ -58,9 +58,9 @@ postsRouter.post('/new', async (req, res) => {
 // put functions
 postsRouter.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { title, text, date, name } = req.body;
+    const { title, text, date, name, category } = req.body;
 
-    const updates = { title, text, date, name, edited: Date.now().toString() };
+    const updates = { title, text, date, name, category, edited: Date.now().toString() };
 
     try {
         const updated = await Posts.updatePost(id, updates);
