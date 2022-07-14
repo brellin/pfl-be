@@ -54,7 +54,7 @@ module.exports = {
                     comments: populateComments(post.id)
                 }));
             } catch (err) {
-                console.err(err);
+                console.log(err);
                 throw err;
             }
         },

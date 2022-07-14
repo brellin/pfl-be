@@ -14,6 +14,18 @@ postsRouter.get('/', async (_, res) => {
     }
 });
 
+postsRouter.get('/:cat', async (req, res) => {
+    const { cat } = req.params;
+
+    try {
+        const posts = await Posts.getAllPostsByCategory(cat);
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
 postsRouter.get('/:id', async (req, res) => {
     const { id } = req.params;
 
