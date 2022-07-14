@@ -27,6 +27,9 @@ exports.up = knex => knex
         table
             .string('edited');
 
+        table
+            .string('category');
+
     })
     .raw(`ALTER SEQUENCE posts_id_seq RESTART WITH ${ postSeeds.length + 1 }`);
 

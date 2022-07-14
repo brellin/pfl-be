@@ -44,6 +44,21 @@ module.exports = {
             }
         },
 
+        getAllPostsByCategory: async cat => {
+            try {
+                const posts = await db('posts')
+                    .where({ category: cat });
+
+                return posts.map(post => ({
+                    ...post,
+                    comments: populateComments(post.id)
+                }));
+            } catch (err) {
+                console.err(err);
+                throw err;
+            }
+        },
+
         getOnePost: async id => {
 
             try {
