@@ -47,8 +47,8 @@ module.exports = {
         getAllCategories: async _ => {
             try {
                 return await db('posts')
-                    .select('category')
-                    .distinct();
+                    .distinct('category')
+                    .select('category');
             } catch (err) {
                 console.log(err);
                 throw err;
