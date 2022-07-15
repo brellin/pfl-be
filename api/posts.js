@@ -14,22 +14,22 @@ postsRouter.get('/', async (_, res) => {
     }
 });
 
-postsRouter.get('/category/:cat', async (req, res) => {
-    const { cat } = req.params;
-
+postsRouter.get('/categories', async (_, res) => {
     try {
-        const posts = await Posts.getAllPostsByCategory(cat);
-        res.status(200).json(posts);
+        const cats = await Posts.getAllCategories();
+        res.status(200).json(cats.map(c => c.category));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err });
     }
 });
 
-postsRouter.get('/categories', async (_, res) => {
+postsRouter.get('/category/:cat', async (req, res) => {
+    const { cat } = req.params;
+
     try {
-        const cats = await Posts.getAllCategories();
-        res.status(200).json(cats);
+        const posts = await Posts.getAllPostsByCategory(cat);
+        res.status(200).json(posts);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err });
