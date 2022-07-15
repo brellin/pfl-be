@@ -26,6 +26,16 @@ postsRouter.get('/category/:cat', async (req, res) => {
     }
 });
 
+postsRouter.get('/categories', async (_, res) => {
+    try {
+        const cats = await Posts.getAllCategories();
+        res.status(200).json(cats);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
 postsRouter.get('/:id', async (req, res) => {
     const { id } = req.params;
 

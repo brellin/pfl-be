@@ -44,6 +44,17 @@ module.exports = {
             }
         },
 
+        getAllCategories: async _ => {
+            try {
+                return await db('posts')
+                    .select('category')
+                    .distinct();
+            } catch (err) {
+                console.log(err);
+                throw err;
+            }
+        },
+
         getAllPostsByCategory: async cat => {
             try {
                 const posts = await db('posts')
