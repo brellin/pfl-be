@@ -1,23 +1,12 @@
 const db = require('./');
 
-const populateComments = async postId => {
-    const comments = await db('comments');
-    return comments.filter(comment => parseInt(comment.post_id) === parseInt(postId));
-};
-
 module.exports = {
 
     comments: {
 
-        addComment: async comment => {
-            try {
-                return await db('comments')
-                    .insert(comment)
-                    .returning('id');
-            } catch (err) {
-                throw err;
-            }
-        },
+        addComment: async comment => await db('comments')
+            .insert(comment)
+            .returning('id'),
 
     },
 
@@ -27,77 +16,37 @@ module.exports = {
             .insert(post)
             .returning('id'),
 
-        getAllPosts: async _ => {
+        getAllPosts: async _ => await db('posts'),
 
-            try {
-                let posts = await db('posts');
+        getAllCategories: async _ => await db('posts')
+            .distinct('category')
+            .select('category'),
 
-                console.log('posts (should be array)', posts);
-
-                return posts.map(post => ({
-                    ...post,
-                    comments: populateComments(post.id)
-                }));
-            } catch (err) {
-                console.log(err);
-                throw err;
-            }
-        },
-
-        getAllCategories: async _ => {
-            try {
-                return await db('posts')
-                    .distinct('category')
-                    .select('category');
-            } catch (err) {
-                console.log(err);
-                throw err;
-            }
-        },
-
-        getAllPostsByCategory: async cat => {
-            try {
-                const posts = await db('posts')
-                    .where({ category: cat });
-
-                return posts.map(post => ({
-                    ...post,
-                    comments: populateComments(post.id)
-                }));
-            } catch (err) {
-                console.log(err);
-                throw err;
-            }
-        },
+        getAllPostsByCategory: async category => await db('posts')
+            .where({ category }),
 
         getOnePost: async id => {
 
-            try {
-                const post = await db('posts')
-                    .where({ id })
-                    .first();
+            const post = await db('posts')
+                .where({ id })
+                .first();
 
-                return {
-                    ...post,
-                    comments: populateComments(id)
-                };
-            } catch (err) {
-                console.log(err);
-                throw err;
-            }
+            return {
+                ...post,
+                comments: await db('comments').where({ post_id: id })
+            };
         },
 
         updatePost: async (id, updates) => {
-            try {
-                const post = await db('posts')
-                    .where({ id })
-                    .update({ ...updates })
-                    .returning([ 'id', 'title', 'text', 'date' ]);
+            const post = await db('posts')
+                .where({ id })
+                .update({ ...updates })
+                .returning([ 'id', 'title', 'text', 'date' ]);
 
-                return populateComments(post);
-            } catch (err) {
-                throw err;
-            }
+            return {
+                ...post,
+                comments: await db('comments').where({ post_id: id })
+            };
         },
 
         deletePost: async id => await db('posts')
@@ -108,15 +57,9 @@ module.exports = {
 
     auth: {
 
-        verify: async name => {
-            try {
-                return await db('auth')
-                    .where('name', name)
-                    .first();
-            } catch (err) {
-                throw err;
-            }
-        }
+        verify: async name => await db('auth')
+            .where('name', name)
+            .first(),
 
     }
 
