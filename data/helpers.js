@@ -65,6 +65,10 @@ module.exports = {
 
     rentals: {
 
+        addRental: async rental => await db('rentals')
+            .insert(rental)
+            .returning('id'),
+
         getAllRentals: async _ => await db('rentals'),
 
         updateRental: async (id, updates) => await db('rentals')

@@ -7,6 +7,7 @@ exports.up = knex => knex.schema
 
         table
             .string('name')
+            .unique()
             .notNullable();
 
         table
@@ -24,7 +25,6 @@ exports.up = knex => knex.schema
         table
             .boolean('wanted');
 
-    })
-    .raw(`ALTER SEQUENCE comments_id_seq RESTART WITH ${ commentSeeds.length + 1 }`);
+    });
 
 exports.down = knex => knex.schema.dropTableIfExists('rentals');
