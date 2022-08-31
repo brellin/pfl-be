@@ -61,6 +61,21 @@ module.exports = {
             .where('name', name)
             .first(),
 
+    },
+
+    rentals: {
+
+        getAllRentals: async _ => await db('rentals'),
+
+        updateRental: async (id, updates) => await db('rentals')
+            .where({ id })
+            .update({ ...updates })
+            .returning([ 'id', 'name', 'link', 'contacted', 'scheduled', 'wanted' ]),
+
+        deleteRental: async id => await db('rentals')
+            .where({ id })
+            .del()
+
     }
 
 };

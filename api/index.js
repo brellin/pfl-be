@@ -12,6 +12,7 @@ server.use(express.json());
 
 server.use('/posts', require('./posts'));
 server.use('/comments', require('./comments'));
+server.use('/rentals', require('./rentals'));
 server.use(require('./auth'));
 
 server.get('/', (req, res) => {
