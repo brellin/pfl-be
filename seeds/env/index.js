@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: './.env.local' });
 const { hashSync } = require('bcrypt');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
                 "date": "1646797818113",
                 "name": "Will Umstead",
                 "edited": null,
-                "category": 'general',
+                "category": "general"
             },
             {
                 "id": 1,
@@ -20,7 +20,16 @@ module.exports = {
                 "date": "1628405713675",
                 "name": "Will Umstead",
                 "edited": "1646797920517",
-                "category": 'general',
+                "category": "general"
+            },
+            {
+                "id": 5,
+                "title": "Brief Summary of Untitled",
+                "text": "A young boy becomes bored and frustrated at the monotony of his average life, and discontented with the attitudes of his so-called friends. Coming to the boiling point of adolescent angst, Kyle's internal cry inadvertently reaches the spiritual plane of existence and sparks a turn of events that will change his life forever.",
+                "date": "1659799471744",
+                "name": "Will Umstead",
+                "edited": "1661049504142",
+                "category": "Untitled"
             }
         ],
         auth: [
@@ -30,13 +39,7 @@ module.exports = {
                 proof: hashSync(process.env.PW, 10)
             }
         ],
-        comments: [ {
-            id: 1,
-            name: '',
-            content: '',
-            date: Date.now().toString(),
-            post_id: 1
-        } ]
+        comments: []
     },
     development: {
         posts: [
@@ -47,7 +50,7 @@ module.exports = {
                 "date": "1646797818113",
                 "name": "Will Umstead",
                 "edited": null,
-                "category": 'general',
+                "category": "general"
             },
             {
                 "id": 1,
@@ -56,7 +59,16 @@ module.exports = {
                 "date": "1628405713675",
                 "name": "Will Umstead",
                 "edited": "1646797920517",
-                "category": 'general',
+                "category": "general"
+            },
+            {
+                "id": 5,
+                "title": "Brief Summary of Untitled",
+                "text": "A young boy becomes bored and frustrated at the monotony of his average life, and discontented with the attitudes of his so-called friends. Coming to the boiling point of adolescent angst, Kyle's internal cry inadvertently reaches the spiritual plane of existence and sparks a turn of events that will change his life forever.",
+                "date": "1659799471744",
+                "name": "Will Umstead",
+                "edited": "1661049504142",
+                "category": "Untitled"
             }
         ],
         auth: [

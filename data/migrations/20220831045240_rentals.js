@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: './.env.local' });
 
 exports.up = knex => knex.schema
     .createTable('rentals', table => {

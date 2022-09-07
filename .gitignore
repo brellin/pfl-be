@@ -106,3 +106,5 @@ dist
 # Personal
 .vscode/
 data/dev.db3
+*.local
+.deta

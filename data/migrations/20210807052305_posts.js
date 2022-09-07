@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: './.env.local' });
 const postSeeds = require('../../seeds/env')[ process.env.ENV === 'Production' ? 'production' : 'development' ].posts;
 
 exports.up = knex => knex

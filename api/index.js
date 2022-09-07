@@ -3,20 +3,20 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const server = express();
+const app = express();
 
-server.use(morgan('dev'));
-server.use(helmet());
-server.use(cors());
-server.use(express.json());
+app.use(morgan('dev'));
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
 
-server.use('/posts', require('./posts'));
-server.use('/comments', require('./comments'));
-server.use('/rentals', require('./rentals'));
-server.use(require('./auth'));
+app.use('/posts', require('./posts'));
+app.use('/comments', require('./comments'));
+app.use('/rentals', require('./rentals'));
+app.use(require('./auth'));
 
-server.get('/', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).json({ message: 'It works' });
 });
 
-module.exports = server;
+module.exports = app;
